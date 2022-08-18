@@ -65,4 +65,13 @@ public class Msg_usuario {
 
         }
     }
+    //Esse método confere se existe equivalência de resposta a pergunta feita
+    public static boolean conferirRespostaExiste(){
+        return false;
+    }
+
+    //Retorna uma mensagem randomizada se for reconhecida uma mensagem de adeus
+    public static String mensagemAdeus(){
+        return "";
+    }
 }
