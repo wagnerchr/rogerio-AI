@@ -71,12 +71,14 @@ public class Interface extends Frame {
 
         public void actionPerformed(ActionEvent e){
 
+            lmsguser.setText(textbox.getText());
+
             Msg_usuario msgu = new Msg_usuario(textbox.getText());
 
             msgu.verificacoes();
 
             //Mostra a mensagem do usuário na label lmsguser
-            lmsguser.setText(msgu.resposta);
+            lmsgrogerio.setText(msgu.resposta);
 
             // Mantém em branco a caixa de texto
             textbox.setText("");
