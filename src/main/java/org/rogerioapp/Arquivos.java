@@ -23,8 +23,6 @@ public class Arquivos {
         for(int i = 0; i < N; i++){
             res[i] = br.readLine();
         }
-
-        System.out.println(N);
         br.close();
         return res;
     }

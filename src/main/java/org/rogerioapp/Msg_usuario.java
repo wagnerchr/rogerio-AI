@@ -1,13 +1,19 @@
 package org.rogerioapp;
 
+import java.io.IOException;
 import java.text.Normalizer;
 
 public class Msg_usuario {
     public String conteudo = "";
     public String resposta = "";
 
-    public Msg_usuario(String conteudo){
-        this.conteudo = conteudo;
+    public String mensagemOriginal;
+
+    public Msg_usuario(String cntd) throws IOException {
+        this.mensagemOriginal = cntd;
+        this.conteudo = cntd;
+        juntarFrase();
+        verificacoes();
     }
 
     //Esse método retorna a frase com as palavras juntas e formatadas
@@ -15,10 +21,9 @@ public class Msg_usuario {
         String mensagem = this.conteudo;
         mensagem = mensagem.toLowerCase();
         mensagem = Normalizer.normalize(mensagem, Normalizer.Form.NFD);
-        mensagem = mensagem.replaceAll("[ ,.!*#$%()+=ªº]","");
+        mensagem = mensagem.replaceAll("[ ?,.!*#$%()+=ªº]","");
         mensagem = mensagem.replaceAll("[^\\p{ASCII}]", "");
         this.conteudo = mensagem;
-        System.out.println(this.conteudo);
         return mensagem;
     }
 
@@ -43,10 +48,10 @@ public class Msg_usuario {
         }
     }
 
-    public void verificacoes(){
-        juntarFrase();
-
+    public void verificacoes() throws IOException {
+        //Verifica se o nome está na frase
         if(verificarNomeExiste()){
+            //Verifica se a mensagem é apenas Rogério
             if(this.conteudo.equals("rogerio")){
                 String[] opcoes = {"Olá","Esse é meu nome","Diga","Oi","Eu","O próprio"};
                 int random = (int)(Math.random() * 5);
@@ -64,10 +69,6 @@ public class Msg_usuario {
         }else{
 
         }
-    }
-    //Esse método confere se existe equivalência de resposta a pergunta feita
-    public static boolean conferirRespostaExiste(){
-        return false;
     }
 
     //Retorna uma mensagem randomizada se for reconhecida uma mensagem de adeus

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class Interface extends Frame {
     static TextField textbox;
@@ -70,15 +71,20 @@ public class Interface extends Frame {
     static ActionListener enviar = new ActionListener(){
 
         public void actionPerformed(ActionEvent e){
-
             lmsguser.setText(textbox.getText());
 
-            Msg_usuario msgu = new Msg_usuario(textbox.getText());
+            try {
+                Msg_usuario msgu = new Msg_usuario(textbox.getText());
 
-            msgu.verificacoes();
+                Msg_rogerio msgr = new Msg_rogerio(msgu.conteudo);
 
-            //Mostra a mensagem do usuário na label lmsguser
-            lmsgrogerio.setText(msgu.resposta);
+                //Mostra a mensagem do rogério
+                lmsgrogerio.setText(msgr.conteudo);
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
 
             // Mantém em branco a caixa de texto
             textbox.setText("");
