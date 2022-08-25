@@ -2,6 +2,7 @@ package org.rogerioapp;
 
 import java.io.IOException;
 import java.text.Normalizer;
+import java.util.Arrays;
 
 public class Msg_usuario {
     public String conteudo = "";
@@ -17,14 +18,27 @@ public class Msg_usuario {
     }
 
     //Esse método retorna a frase com as palavras juntas e formatadas
-    public String juntarFrase(){
-        String mensagem = this.conteudo;
-        mensagem = mensagem.toLowerCase();
-        mensagem = Normalizer.normalize(mensagem, Normalizer.Form.NFD);
-        mensagem = mensagem.replaceAll("[ ?,.!*#$%()+=ªº]","");
-        mensagem = mensagem.replaceAll("[^\\p{ASCII}]", "");
-        this.conteudo = mensagem;
-        return mensagem;
+    public void juntarFrase(){
+        if(!verificarNomeExiste()){
+            String mensagem = this.conteudo;
+            mensagem = mensagem.toLowerCase();
+            mensagem = Normalizer.normalize(mensagem, Normalizer.Form.NFD);
+            mensagem = mensagem.replaceAll("[ ?,.!*#$%()+=ªº]","");
+            mensagem = mensagem.replaceAll("[^\\p{ASCII}]", "");
+            this.conteudo = mensagem;
+        }else{
+            String[] vetPalavras = separarFrase();
+            for(int i = 0; i < vetPalavras.length; i++){
+                if(vetPalavras[i].equals("rogerio")){
+                    vetPalavras[i] = "";
+                }
+            }
+
+            String mensagem = Arrays.toString(vetPalavras);
+            mensagem = mensagem.replaceAll("[ ?,.!*#$%()+=ªº]","");
+            mensagem = mensagem.replaceAll("[\\[\\]\"]", "");
+            this.conteudo = mensagem;
+        }
     }
 
     //Esse método retorna a frase num vetor em que cada posição equivale a uma palavra (Sem acentos)
@@ -41,6 +55,7 @@ public class Msg_usuario {
     //Esse método verifica se na mensagem está sendo citado o nome dele ou se é uma pergunta referente a ele
     public boolean verificarNomeExiste(){
         String mensagem = this.conteudo;
+        mensagem = mensagem.toLowerCase();
         if(mensagem.contains("rogerio")){
             return true;
         }else{
@@ -49,8 +64,6 @@ public class Msg_usuario {
     }
 
     public void verificacoes() throws IOException {
-        //Verifica se o nome está na frase
-        if(verificarNomeExiste()){
             //Verifica se a mensagem é apenas Rogério
             if(this.conteudo.equals("rogerio")){
                 String[] opcoes = {"Olá","Esse é meu nome","Diga","Oi","Eu","O próprio"};
@@ -66,13 +79,11 @@ public class Msg_usuario {
                     }
                 }
             }
-        }else{
-
         }
-    }
 
     //Retorna uma mensagem randomizada se for reconhecida uma mensagem de adeus
     public static String mensagemAdeus(){
         return "";
     }
 }
+
